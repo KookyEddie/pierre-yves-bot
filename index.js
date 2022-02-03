@@ -1,4 +1,4 @@
-require("dotenv").config
+require("dotenv").config()
 
 const generateImage = require("./generateImage")
 const Discord = require("discord.js")
@@ -31,4 +31,4 @@ client.on("guildMemberAdd", async (member) => {
     })
 })
 
-client.login("OTM4NjQxOTU3MTUwOTI0ODMw.YftQcQ.FMmnBrVhn6lqT20N73HWpsNcuSw")
+client.login(process.env.TOKEN)
