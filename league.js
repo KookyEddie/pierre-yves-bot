@@ -1,9 +1,9 @@
-import { SetLanguage, SetLocale } from 'lol-discord';
+const lol = require('lol-discord');
 
 export default class MatchHistory {
     setSettings() {
-        SetLanguage("en");
-        SetLocale("na1");
+        lol.SetLanguage("en");
+        lol.SetLocale("na1");
     }
 
     validateMessage(message) {
