@@ -1,9 +1,11 @@
 require("dotenv").config()
 
-const generateImage = require("./generateImage")
-const Discord = require("discord.js")
+import generateImage from "./generateImage";
+import { Client } from "discord.js";
+import MatchHistory from "./league";
+const matchHistory = new MatchHistory();
 
-const client = new Discord.Client({
+const client = new Client({
     intents: [
         "GUILDS",
         "GUILD_MESSAGES",
@@ -13,11 +15,15 @@ const client = new Discord.Client({
 
 client.on("ready", () => {
     console.log(`Logged in as ${client.user.tag}`)
+    matchHistory.setSettings();
 })
 
 client.on("messageCreate", (message) => {
     if (message.content == "!ranked"){
         message.reply("Tu es Iron IV!")
+    }
+    if (matchHistory.validateMessage(message)) {
+        matchHistory.getMatchHistory(message);
     }
 })
 
