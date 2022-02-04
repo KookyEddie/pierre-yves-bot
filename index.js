@@ -2,7 +2,8 @@ require("dotenv").config()
 
 import generateImage from "./generateImage";
 import { Client } from "discord.js";
-import { SetLanguage, SetLocale } from 'lol-discord';
+import MatchHistory from "./league";
+const matchHistory = new MatchHistory();
 
 const client = new Client({
     intents: [
@@ -14,29 +15,15 @@ const client = new Client({
 
 client.on("ready", () => {
     console.log(`Logged in as ${client.user.tag}`)
-    SetLanguage("en");
-    SetLocale("na1");
+    matchHistory.setSettings();
 })
 
 client.on("messageCreate", (message) => {
     if (message.content == "!ranked"){
         message.reply("Tu es Iron IV!")
     }
-})
-
-client.on("messageCreate", (message) => {
-    let validateCommand = message.content.slice(0, 7)
-    if (validateCommand == "!history" && message.content.length > 7){
-        let playerName = message.content.slice(8);
-        message.reply("Attend un peu").then(message_searching => {
-            lol.Search(playerName).then(embed_message => {
-                message_searching.delete();
-                message.reply({embed: embed_message});
-            }).catch(err => {
-                message_searching.delete();
-                message.reply(err);
-            });
-          });
+    if (matchHistory.validateMessage(message)) {
+        matchHistory.getMatchHistory(message);
     }
 })
 
