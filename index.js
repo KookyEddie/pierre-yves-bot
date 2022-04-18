@@ -8,8 +8,6 @@ const fs = require("fs")
 const { Player } = require("discord-player")
 const { REST } = require("@discordjs/rest")
 
-const TOKEN = process.env.TOKEN
-
 const LOAD_SLASH = process.argv[2] == "load"
 
 const CLIENT_ID = "938641957150924830"
@@ -52,7 +50,7 @@ for (const file of slashFiles){
 }
 
 if (LOAD_SLASH) {
-    const rest = new REST({ version: "9" }).setToken(TOKEN)
+    const rest = new REST({ version: "9" }).setToken(process.env.TOKEN)
     console.log("Deploying slash commands")
     rest.put(Routes.applicationGuildCommands(CLIENT_ID, GUILD_ID), {body: commands})
     .then(() => {
@@ -79,10 +77,10 @@ else {
         }
         handleCommand()
     })
-    client.login(TOKEN)
+    client.login(process.env.TOKEN)
 }
 
-client.loadEvents = (bot, reload) => require("./handlers/events")(bot, reload)
+/*client.loadEvents = (bot, reload) => require("./handlers/events")(bot, reload)
 client.loadCommands = (bot, reload) => require("./handlers/commands")(bot, reload)
 
 client.loadEvents(bot, false)
@@ -90,4 +88,4 @@ client.loadCommands(bot, false)
 
 module.exports = bot
 
-client.login(process.env.TOKEN)
+client.login(process.env.TOKEN)*/
